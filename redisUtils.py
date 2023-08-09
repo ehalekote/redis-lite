@@ -6,6 +6,10 @@ MSG_SEPARATOR = "\r\n"
 class SimpleString:
     data: str
 
+@dataclass
+class Error:
+    data: str
+
 def deserialize(buffer):
     separatorIdx = buffer.find(MSG_SEPARATOR)
 
@@ -17,6 +21,8 @@ def deserialize(buffer):
         match buffer[0]:
             case '+':
                 return SimpleString(payload)
+            case '-':
+                return Error(payload)
 
 def serialize(data, respType):
     pass
