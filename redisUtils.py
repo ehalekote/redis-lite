@@ -18,6 +18,10 @@ class Integer:
 class BulkString:
     data: str
 
+@dataclass
+class Array:
+    data: list
+
 def getPayload(buffer, startIdx):
     separatorIdx1 = buffer.find(MSG_SEPARATOR, startIdx)
 
@@ -33,7 +37,9 @@ def getPayload(buffer, startIdx):
             if separatorIdx1 == -1 or separatorIdx2 == -1:
                 return None, 0
             return payload, separatorIdx2-startIdx+2
-
+        case '*':
+            pass
+          
 def deserialize(buffer):
     if buffer.find(MSG_SEPARATOR) == -1:
         return (None, 0)
@@ -49,6 +55,10 @@ def deserialize(buffer):
                 return (Integer(int(payload)), length)
             case '$':
                 return (BulkString(payload), length) if payload != None else (None, length)
-
+            case '*':
+                # return Array(payload) if payload != None else None
+                pass
 def serialize(data, respType):
     pass
+
+print(deserialize("*2\r\n$5\r\nhello\r\n$5\r\nworld\r\n"))
