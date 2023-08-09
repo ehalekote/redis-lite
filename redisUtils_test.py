@@ -31,7 +31,19 @@ from redisUtils import *
          ("*0\r\n", (Array([]),4)),
          ("*2\r\n$5\r\nhello\r\n$5\r\nworld\r\n", (Array([BulkString("hello"), BulkString("world")]), 26)),
          ("*3\r\n:1\r\n:2\r\n:3\r\n", (Array([Integer(1), Integer(2), Integer(3)]), 16)),
-        #  ("*2\r\n*3\r\n:1\r\n:2\r\n:3\r\n*2\r\n+Hello\r\n-World\r\n", [Array([Integer(1), Integer(2), Integer(3)]), Array([BulkString("Hello"), Error("World")])])
+         ("*2\r\n*3\r\n:1\r\n:2\r\n:3\r\n*2\r\n+Hello\r\n-World\r\n", 
+            (Array(
+                [Array(
+                    [Integer(1), 
+                     Integer(2), 
+                     Integer(3)]), 
+                Array(
+                    [SimpleString("Hello"), 
+                     Error("World")]
+                     )
+                ]
+            ), 40)
+        )
     ]
 )
 def test_deserialize(buffer, expected):

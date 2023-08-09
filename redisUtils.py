@@ -38,15 +38,27 @@ def getPayload(buffer, startIdx):
                 return None, 0
             return payload, separatorIdx2-startIdx+2
         case '*':
-            pass
-          
-def deserialize(buffer):
+            if buffer[startIdx+1]=='-' and buffer[startIdx+2]=='1':
+                return (None, 5)
+
+            arraySize = buffer[startIdx+1:separatorIdx1]
+
+            payload = []
+            nextIdx = startIdx + 4
+            for _ in range(int(arraySize)):
+                childPayload, length = deserialize(buffer, nextIdx)
+                payload.append(childPayload)
+                nextIdx = nextIdx + length
+            
+            return (payload, nextIdx - startIdx)
+
+def deserialize(buffer, startIdx=0):
     if buffer.find(MSG_SEPARATOR) == -1:
         return (None, 0)
     else:
-        payload, length = getPayload(buffer, 0)
+        payload, length = getPayload(buffer, startIdx)
 
-        match buffer[0]:
+        match buffer[startIdx]:
             case '+':
                 return (SimpleString(payload), length)
             case '-':
@@ -56,9 +68,9 @@ def deserialize(buffer):
             case '$':
                 return (BulkString(payload), length) if payload != None else (None, length)
             case '*':
-                # return Array(payload) if payload != None else None
-                pass
+                return (Array(payload), length) if payload != None else (None, length)
+                
 def serialize(data, respType):
     pass
 
-print(deserialize("*2\r\n$5\r\nhello\r\n$5\r\nworld\r\n"))
+print(deserialize("*3\r\n:1\r\n:2\r\n:3\r\n"))
