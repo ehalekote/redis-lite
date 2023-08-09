@@ -72,5 +72,3 @@ def deserialize(buffer, startIdx=0):
                 
 def serialize(data, respType):
     pass
-
-print(deserialize("*3\r\n:1\r\n:2\r\n:3\r\n"))
