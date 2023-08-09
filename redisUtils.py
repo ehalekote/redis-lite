@@ -14,13 +14,19 @@ class Error:
 class Integer:
     data: int
 
-def deserialize(buffer):
-    separatorIdx = buffer.find(MSG_SEPARATOR)
+def getPayload(buffer):
+    match buffer[0]:
+        case '+' | '-' | ':':
+            separatorIdx = buffer.find(MSG_SEPARATOR)
+            return buffer[1:separatorIdx]
 
-    if separatorIdx == -1:
+                
+
+def deserialize(buffer):
+    if buffer.find(MSG_SEPARATOR) == -1:
         return None
     else:
-        payload = buffer[1:separatorIdx]
+        payload = getPayload(buffer)
 
         match buffer[0]:
             case '+':
