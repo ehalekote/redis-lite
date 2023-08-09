@@ -14,13 +14,22 @@ class Error:
 class Integer:
     data: int
 
+@dataclass
+class BulkString:
+    data: str
+
 def getPayload(buffer):
+    separatorIdx1 = buffer.find(MSG_SEPARATOR)
+
     match buffer[0]:
         case '+' | '-' | ':':
-            separatorIdx = buffer.find(MSG_SEPARATOR)
-            return buffer[1:separatorIdx]
-
-                
+            return buffer[1:separatorIdx1]
+        case '$':
+            separatorIdx2 = buffer.find(MSG_SEPARATOR, separatorIdx1 + 2)
+            payload = buffer[separatorIdx1+2 : separatorIdx2]
+            if separatorIdx1 == -1 or separatorIdx2 == -1:
+                return None
+            return payload
 
 def deserialize(buffer):
     if buffer.find(MSG_SEPARATOR) == -1:
@@ -35,6 +44,8 @@ def deserialize(buffer):
                 return Error(payload)
             case ':':
                 return Integer(int(payload))
+            case '$':
+                return BulkString(payload) if payload != None else None
 
 def serialize(data, respType):
     pass
