@@ -12,7 +12,12 @@ from redisUtils import *
          # Errors test cases
          ("-Error message", None),
          ("-Error message\r\n", Error('Error message')),
-         ("-Error message\r\n+Next", Error('Error message'))
+         ("-Error message\r\n+Next", Error('Error message')),
+
+         # Integer test cases
+         (":10", None),
+         (":10\r\n", Integer(10)),
+         (":10\r\n+Next", Integer(10))
     ]
 )
 def test_deserialize(buffer, expected):
