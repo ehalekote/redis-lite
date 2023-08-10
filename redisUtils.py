@@ -91,6 +91,17 @@ def serialize(dataTuple):
                 return "$-1\r\n"
             else:
                 return f'${dataTuple[1]}{MSG_SEPARATOR}{dataTuple[0].data}{MSG_SEPARATOR}'
-
-
-serialize("$-1\r\n")
+        case Array():
+            if dataTuple[0].data == None:
+                return "*-1\r\n"
+            else:
+                serializedData = f'*{dataTuple[1]}{MSG_SEPARATOR}'
+                for redisObject in dataTuple[0].data:
+                    nextData = None
+                    if isinstance(redisObject, BulkString) or isinstance(redisObject, Array):
+                        nextData = (redisObject, 0) if redisObject.data == None else (
+                            redisObject, len(redisObject.data))
+                    else:
+                        nextData = (redisObject, )
+                    serializedData += serialize(nextData)
+                return serializedData

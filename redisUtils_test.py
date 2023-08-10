@@ -73,8 +73,13 @@ def test_deserialize(buffer, expected):
         # Bulk String test cases
         ((BulkString(""), 0), "$0\r\n\r\n"),
         ((BulkString("hello"), 5), "$5\r\nhello\r\n"),
-        ((BulkString(None), 0), "$-1\r\n")
+        ((BulkString(None), 0), "$-1\r\n"),
 
+        # Array test cases
+        ((Array(None), 0), "*-1\r\n"),
+        ((Array([]), 0), "*0\r\n"),
+        ((Array([Integer(1), Integer(2), Integer(3)]), 3),
+         "*3\r\n:1\r\n:2\r\n:3\r\n"),
     ]
 )
 def test_serialize(data, expected):
