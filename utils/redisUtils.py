@@ -33,7 +33,7 @@ def getPayload(buffer, startIdx):
 
     match buffer[startIdx]:
         case '+' | '-' | ':':
-            return buffer[startIdx+1:separatorIdx1], separatorIdx1-startIdx+2
+            return buffer[startIdx+1:separatorIdx1], separatorIdx1+2-startIdx
         case '$':
             if buffer[startIdx+1] == '-' and buffer[startIdx+2] == '1':
                 return (None, 5)
