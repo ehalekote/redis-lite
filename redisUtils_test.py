@@ -60,15 +60,20 @@ def test_deserialize(buffer, expected):
     ('data', 'expected'),
     [
         # Simple String test cases
-        (SimpleString('OK'), "+OK\r\n"),
-        (SimpleString(''), "+\r\n"),
+        ((SimpleString('OK'), 5), "+OK\r\n"),
+        ((SimpleString(''), 0), "+\r\n"),
 
         # Errors test cases
-        (Error('Error message'), "-Error message\r\n"),
-        (Error(''), "-\r\n"),
+        ((Error('Error message'), 16), "-Error message\r\n"),
+        ((Error(''), 0), "-\r\n"),
 
         # Integer test cases
-        (Integer(10), ":10\r\n"),
+        ((Integer(10), 5), ":10\r\n"),
+
+        # # Bulk String test cases
+        # (BulkString(""), "$0\r\n\r\n"),
+        # (BulkString("hello"), "$5\r\nhello\r\n"),
+        # (BulkString(None), "$-1\r\n")
 
     ]
 )

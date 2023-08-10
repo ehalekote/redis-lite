@@ -78,14 +78,19 @@ def deserialize(buffer, startIdx=0):
                 return (None, length) if payload == None and not length else (Array(payload), length)
 
 
-def serialize(redisObject):
-    match redisObject:
+def serialize(dataTuple):
+    match dataTuple[0]:
         case SimpleString():
-            return f'+{redisObject.data}{MSG_SEPARATOR}'
+            return f'+{dataTuple[0].data}{MSG_SEPARATOR}'
         case Error():
-            return f'-{redisObject.data}{MSG_SEPARATOR}'
+            return f'-{dataTuple[0].data}{MSG_SEPARATOR}'
         case Integer():
-            return f':{redisObject.data}{MSG_SEPARATOR}'
+            return f':{dataTuple[0].data}{MSG_SEPARATOR}'
+        # case BulkString():
+        #     if redisObject.data == None:
+        #         return "$-1\r\n"
+        #     else:
+        #         return f'${MSG_SEPARATOR}{redisObject.data}{MSG_SEPARATOR}'
 
 
 deserialize("$-1\r\n")
