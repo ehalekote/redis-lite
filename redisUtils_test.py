@@ -22,7 +22,7 @@ from redisUtils import *
         (":10\r\n+Next", (Integer(10), 5)),
 
         # Bulk String test cases
-        ("$-1\r\n", (None, 5)),
+        ("$-1\r\n", (BulkString(None), 5)),
         ("$5\r\nhello", (None, 0)),
         ("$0\r\n\r\n", (BulkString(""), 6)),
         ("$5\r\nhello\r\n", (BulkString("hello"), 11)),
@@ -30,7 +30,7 @@ from redisUtils import *
 
         # Array test cases
         # test case with \r\n in message
-        ("*-1\r\n", (None, 5)),
+        ("*-1\r\n", (Array(None), 5)),
         ("*0\r\n", (Array([]), 4)),
         ("*2\r\n$5\r\nhello\r\n$5\r\nworld\r\n",
          (Array([BulkString("hello"), BulkString("world")]), 26)),

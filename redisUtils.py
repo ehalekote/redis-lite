@@ -73,9 +73,9 @@ def deserialize(buffer, startIdx=0):
             case ':':
                 return (Integer(int(payload)), length)
             case '$':
-                return (BulkString(payload), length) if payload != None else (None, length)
+                return (None, length) if payload == None and not length else (BulkString(payload), length)
             case '*':
-                return (Array(payload), length) if payload != None else (None, length)
+                return (None, length) if payload == None and not length else (Array(payload), length)
 
 
 def serialize(redisObject):
@@ -88,4 +88,4 @@ def serialize(redisObject):
             return f':{redisObject.data}{MSG_SEPARATOR}'
 
 
-deserialize("$0\r\n\r\n")
+deserialize("$-1\r\n")
