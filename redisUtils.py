@@ -79,8 +79,8 @@ def deserialize(buffer, startIdx=0):
 
 
 def serialize(redisObject):
-    redisType = type(redisObject)
-
-    match redisType:
-        case SimpleString:
+    match redisObject:
+        case SimpleString():
             return f'+{redisObject.data}{MSG_SEPARATOR}'
+        case Error():
+            return f'-{redisObject.data}{MSG_SEPARATOR}'

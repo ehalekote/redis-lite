@@ -62,6 +62,10 @@ def test_deserialize(buffer, expected):
         # Simple String test cases
         (SimpleString('OK'), "+OK\r\n"),
         (SimpleString(''), "+\r\n"),
+
+        # Errors test cases
+        (Error('Error message'), "-Error message\r\n"),
+        (Error(''), "-\r\n"),
     ]
 )
 def test_serialize(data, expected):
