@@ -14,6 +14,20 @@ _This is a simplified redis clone based on the [Write Your Own Redis Server](htt
 - Flask
 
 ### Installation
+1. Clone the repository
+2. Install the packages listed in the `requirements.txt` file.
+```
+pip install -r requirements.txt
+```
+
+ ### Tests
+
+#### Serialization / Deserialization tests
+``` sh
+cd utils
+pytest redisUtils_test.py
+```
+
 
 
 ## License
