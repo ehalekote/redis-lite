@@ -86,11 +86,11 @@ def serialize(dataTuple):
             return f'-{dataTuple[0].data}{MSG_SEPARATOR}'
         case Integer():
             return f':{dataTuple[0].data}{MSG_SEPARATOR}'
-        # case BulkString():
-        #     if redisObject.data == None:
-        #         return "$-1\r\n"
-        #     else:
-        #         return f'${MSG_SEPARATOR}{redisObject.data}{MSG_SEPARATOR}'
+        case BulkString():
+            if dataTuple[0].data == None:
+                return "$-1\r\n"
+            else:
+                return f'${dataTuple[1]}{MSG_SEPARATOR}{dataTuple[0].data}{MSG_SEPARATOR}'
 
 
-deserialize("$-1\r\n")
+serialize("$-1\r\n")
