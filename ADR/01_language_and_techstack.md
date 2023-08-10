@@ -14,7 +14,7 @@ Programming language and tech stack selection for the creation of a Redis clone
 -  Python + Flask
 
 ## Status
-- Current 
+- Current
 
 ## Consequences
 ### Pros
