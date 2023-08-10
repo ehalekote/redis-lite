@@ -66,6 +66,10 @@ def test_deserialize(buffer, expected):
         # Errors test cases
         (Error('Error message'), "-Error message\r\n"),
         (Error(''), "-\r\n"),
+
+        # Integer test cases
+        (Integer(10), ":10\r\n"),
+
     ]
 )
 def test_serialize(data, expected):

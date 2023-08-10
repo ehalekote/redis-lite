@@ -84,3 +84,8 @@ def serialize(redisObject):
             return f'+{redisObject.data}{MSG_SEPARATOR}'
         case Error():
             return f'-{redisObject.data}{MSG_SEPARATOR}'
+        case Integer():
+            return f':{redisObject.data}{MSG_SEPARATOR}'
+
+
+deserialize("$0\r\n\r\n")
