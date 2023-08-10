@@ -2,25 +2,31 @@ from dataclasses import dataclass
 
 MSG_SEPARATOR = "\r\n"
 
+
 @dataclass
 class SimpleString:
     data: str
+
 
 @dataclass
 class Error:
     data: str
 
+
 @dataclass
 class Integer:
     data: int
+
 
 @dataclass
 class BulkString:
     data: str
 
+
 @dataclass
 class Array:
     data: list
+
 
 def getPayload(buffer, startIdx):
     separatorIdx1 = buffer.find(MSG_SEPARATOR, startIdx)
@@ -29,16 +35,16 @@ def getPayload(buffer, startIdx):
         case '+' | '-' | ':':
             return buffer[startIdx+1:separatorIdx1], separatorIdx1-startIdx+2
         case '$':
-            if buffer[startIdx+1]=='-' and buffer[startIdx+2]=='1':
+            if buffer[startIdx+1] == '-' and buffer[startIdx+2] == '1':
                 return (None, 5)
 
             separatorIdx2 = buffer.find(MSG_SEPARATOR, separatorIdx1 + 2)
-            payload = buffer[separatorIdx1+2 : separatorIdx2]
+            payload = buffer[separatorIdx1+2: separatorIdx2]
             if separatorIdx1 == -1 or separatorIdx2 == -1:
                 return None, 0
             return payload, separatorIdx2-startIdx+2
         case '*':
-            if buffer[startIdx+1]=='-' and buffer[startIdx+2]=='1':
+            if buffer[startIdx+1] == '-' and buffer[startIdx+2] == '1':
                 return (None, 5)
 
             arraySize = buffer[startIdx+1:separatorIdx1]
@@ -49,8 +55,9 @@ def getPayload(buffer, startIdx):
                 childPayload, length = deserialize(buffer, nextIdx)
                 payload.append(childPayload)
                 nextIdx = nextIdx + length
-            
+
             return (payload, nextIdx - startIdx)
+
 
 def deserialize(buffer, startIdx=0):
     if buffer.find(MSG_SEPARATOR) == -1:
@@ -69,6 +76,11 @@ def deserialize(buffer, startIdx=0):
                 return (BulkString(payload), length) if payload != None else (None, length)
             case '*':
                 return (Array(payload), length) if payload != None else (None, length)
-                
-def serialize(data, respType):
-    pass
+
+
+def serialize(redisObject):
+    redisType = type(redisObject)
+
+    match redisType:
+        case SimpleString:
+            return f'+{redisObject.data}{MSG_SEPARATOR}'

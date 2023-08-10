@@ -54,3 +54,16 @@ from redisUtils import *
 def test_deserialize(buffer, expected):
     actual = deserialize(buffer)
     assert actual == expected
+
+
+@pytest.mark.parametrize(
+    ('data', 'expected'),
+    [
+        # Simple String test cases
+        (SimpleString('OK'), "+OK\r\n"),
+        (SimpleString(''), "+\r\n"),
+    ]
+)
+def test_serialize(data, expected):
+    actual = serialize(data)
+    assert actual == expected
