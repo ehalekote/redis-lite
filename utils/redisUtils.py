@@ -120,3 +120,13 @@ def serialize(dataTuple):
                         nextData = (redisObject,)
                     serializedData += serialize(nextData)
                 return serializedData
+
+
+def handleRequest(data, length):
+    print(data)
+    match data:
+        case SimpleString():
+            if data.data == "PING":
+                return "PONG"
+
+    return "FAIL"
