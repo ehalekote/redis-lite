@@ -17,7 +17,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     s.sendall(cmdSerialized.encode())
     data = s.recv(1024).decode()
-    res = getPayload(data, 0)
+    payload = getPayload(data, 0)
+    res = payload[0]
 
-# Deserialize and get payload
-print(f"{res[0]}")
+print(f"{res}")
