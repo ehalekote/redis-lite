@@ -11,7 +11,7 @@ else:
     print("ERROR: Please submit a valid Redis command")
 
 HOST = "127.0.0.1"
-PORT = 65432
+PORT = 6379
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
