@@ -1,5 +1,6 @@
 import socket
-from utils.redisUtils import deserialize, serialize, SimpleString, BulkString, Error
+
+from redisUtils import deserialize, serialize, SimpleString, BulkString, Error
 
 
 def handleRequest(respArray, length):

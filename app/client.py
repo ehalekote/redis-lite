@@ -1,6 +1,7 @@
 import socket
 import sys
-from utils.redisUtils import serialize, getPayload, Array, BulkString
+
+from redisUtils import serialize, getPayload, Array, BulkString
 
 if len(sys.argv) > 1:
     inputs = sys.argv[1:]

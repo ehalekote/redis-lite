@@ -1,5 +1,6 @@
 import pytest
-from redisUtils import *
+
+from app.redisUtils import *
 
 
 @pytest.mark.parametrize(
