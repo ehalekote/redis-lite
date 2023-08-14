@@ -11,7 +11,8 @@ Data structure selection for GET/SET command implementation
 - Keys that already have existing values are overwritten
 
 ## Decision
--   I will use a Hash, implemented as a hash table via Python's dictionary data structure
+- I will use a Hash, implemented as a hash table via Python's dictionary data structure to GET and SET key-value pairs
+- Strings will be used for the keys and values
 
 ## Status
 - In review
