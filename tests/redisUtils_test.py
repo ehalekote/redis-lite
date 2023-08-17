@@ -1,5 +1,6 @@
 import pytest
-from redisUtils import *
+
+from app.redisUtils import *
 
 
 @pytest.mark.parametrize(
@@ -32,7 +33,10 @@ from redisUtils import *
             "*2\r\n$5\r\nhello\r\n$5\r\nworld\r\n",
             (Array([BulkString("hello"), BulkString("world")]), 26),
         ),
-        ("*3\r\n:1\r\n:2\r\n:3\r\n", (Array([Integer(1), Integer(2), Integer(3)]), 16)),
+        (
+            "*3\r\n:1\r\n:2\r\n:3\r\n",
+            (Array([Integer(1), Integer(2), Integer(3)]), 16),
+        ),
         (
             "*2\r\n*3\r\n:1\r\n:2\r\n:3\r\n*2\r\n+Hello\r\n-World\r\n",
             (
@@ -70,7 +74,10 @@ def test_deserialize(buffer, expected):
         # Array test cases
         ((Array(None), 0), "*-1\r\n"),
         ((Array([]), 0), "*0\r\n"),
-        ((Array([Integer(1), Integer(2), Integer(3)]), 3), "*3\r\n:1\r\n:2\r\n:3\r\n"),
+        (
+            (Array([Integer(1), Integer(2), Integer(3)]), 3),
+            "*3\r\n:1\r\n:2\r\n:3\r\n",
+        ),
     ],
 )
 def test_serialize(data, expected):
