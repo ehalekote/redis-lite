@@ -15,7 +15,7 @@ Data structure selection for GET/SET command implementation
 - Strings will be used for the keys and values
 
 ## Status
-- In review
+- Accepted
 
 ## Consequences
 ### Pros
