@@ -17,3 +17,7 @@
 # def test_handleRequest(respArray, length, expected):
 #     actual = handleRequest(respArray, length)
 #     assert actual == expected
+
+# GET tests
+
+# SET tests
