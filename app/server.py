@@ -2,7 +2,15 @@ import socket
 import threading
 import time
 
-from redisUtils import deserialize, serialize, SimpleString, BulkString, Error
+from redisUtils import (
+    deserialize,
+    serialize,
+    SimpleString,
+    BulkString,
+    Error,
+    backgroundMemoryExpiry,
+    RepeatTimer,
+)
 
 memory = {}
 lock = threading.Lock()
@@ -91,6 +99,10 @@ HOST = "127.0.0.1"
 PORT = 6379
 
 print("[STARTING] Server is starting...")
+
+cleanupProcess = RepeatTimer(3.0, lambda: backgroundMemoryExpiry(memory, 2))
+cleanupProcess.start()
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen()
