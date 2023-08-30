@@ -1,4 +1,7 @@
 from dataclasses import dataclass
+import random
+import time
+from threading import Timer
 
 MSG_SEPARATOR = "\r\n"
 
@@ -123,3 +126,28 @@ def serialize(dataTuple):
                         nextData = (redisObject,)
                     serializedData += serialize(nextData)
                 return serializedData
+
+
+class RepeatTimer(Timer):
+    def run(self):
+        while not self.finished.wait(self.interval):
+            self.function(*self.args, **self.kwargs)
+
+
+def backgroundMemoryExpiry(memory, n):
+
+    if n > len(memory):
+        # print("Sample size larger than items in memory. Memory:")
+        # print(memory)
+        return
+
+    memorySample = random.sample(memory.items(), n)
+
+    for item in memorySample:
+        key = item[0]
+        val = item[1][0]
+        expiry = item[1][1]
+        if expiry < time.time():
+            del memory[key]
+
+    # print(memory)
