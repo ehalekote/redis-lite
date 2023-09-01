@@ -8,6 +8,7 @@ from redisUtils import (
     SimpleString,
     BulkString,
     Error,
+    Integer,
     backgroundMemoryExpiry,
     RepeatTimer,
 )
@@ -91,6 +92,12 @@ def handleRequest(respArray, length, memory):
         else:
             del memory[targetKey]
             return (BulkString(None), 5)
+    elif cmdBulkString.data == "EXISTS" and len(arr) > 1:
+        counter = 0
+        for key in arr[1:]:
+            if key.data in memory:
+                counter += 1
+        return (Integer(counter),)
 
     return (Error("Invalid or unsupported command"),)
 
