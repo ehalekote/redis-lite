@@ -37,7 +37,7 @@ python server.py
 ```
 redis-cli
 ```
-4. Send (supported) commands! 
+4. Send (supported) commands!
 
 ## License
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
