@@ -1,4 +1,4 @@
-# coding-challenge-redis
+# Redis Litee
 
 _This is a simplified redis clone based on the [Write Your Own Redis Server](https://codingchallenges.fyi/challenges/challenge-redis) coding challenge_
 
